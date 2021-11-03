@@ -1,3 +1,6 @@
+
+
+
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.keys import Keys
@@ -24,7 +27,7 @@ driver.set_window_size(450, 650)
 
 
 
-driver.get(f'https://cssa.cunyfirst.cuny.edu/psc/cnycsprd/EMPLOYEE/CAMP/c/SA_LEARNER_SERVICES.SSR_SSENRL_SWAP.GBL?Page=SSR_SSENRL_SWAP&Action=A&ACAD_CAREER=UGRD&EMPLID={keys["id"]}&ENRL_REQUEST_ID=&INSTITUTION=QNS01&STRM=1222')
+driver.get(f'https://cssa.cunyfirst.cuny.edu/psc/cnycsprd/EMPLOYEE/CAMP/c/SA_LEARNER_SERVICES.SSR_SSENRL_ADD.GBL?Page=SSR_SSENRL_ADD_C&Action=U&ACAD_CAREER=UGRD&EMPLID={keys["id"]}&ENRL_REQUEST_ID=0061938917&INSTITUTION=QNS01&STRM=1222&TargetFrameName=None')
 
 driver.execute_script("document.body.style.zoom='50%'")
 
@@ -42,28 +45,15 @@ while status:
 
     time.sleep(1)
 
-    # different ways of selecting from a drop-down list
-    classToChange =  driver.find_element(By.XPATH, '//*[@id="DERIVED_REGFRM1_DESCR50$225$"]/option[1]').click()
-
-    element = driver.find_element(By.XPATH, '//*[@id="DERIVED_REGFRM1_SSR_CLASSNAME_35$183$"]')
-    desiredClass =  Select(element)
-    desiredClass.select_by_value("47254")
-
-    time.sleep(1)
-
-    submit = driver.find_element(By.XPATH, '//*[@id="DERIVED_REGFRM1_SSR_PB_ADDTOLIST1$184$"]').click()
+    submit = driver.find_element(By.XPATH, '//*[@id="DERIVED_REGFRM1_SSR_PB_SUBMIT"]').click()
 
     counter += 1
     print(f'***************************************Submission {counter}***************************************')
 
     time.sleep(2)
 
-    submit = driver.find_element(By.ID, "DERIVED_REGFRM1_SSR_PB_SUBMIT").click()
-
-    time.sleep(2)
-
     # find the success status from the image used
-    result = driver.find_element(By.XPATH, '//*[@id="win0divDERIVED_REGFRM1_SSR_STATUS_LONG$0"]/div/img')
+    result = driver.find_element(By.XPATH, '//*[@id="win0divDERIVED_REGFRM1_SSR_STATUS_LONG$3"]/div/img')
 
     time.sleep(1)
     image_url = result.get_attribute("src")
@@ -75,14 +65,16 @@ while status:
 
     if Pattern.fullmatch(image_url) != None:
         print(f'Continue... waiting {num} seconds')
-        driver.get(f'https://cssa.cunyfirst.cuny.edu/psc/cnycsprd/EMPLOYEE/CAMP/c/SA_LEARNER_SERVICES.SSR_SSENRL_SWAP.GBL?Page=SSR_SSENRL_SWAP&Action=A&ACAD_CAREER=UGRD&EMPLID={keys["id"]}&ENRL_REQUEST_ID=&INSTITUTION=QNS01&STRM=1222')
+        driver.get(f'https://cssa.cunyfirst.cuny.edu/psc/cnycsprd/EMPLOYEE/CAMP/c/SA_LEARNER_SERVICES.SSR_SSENRL_ADD.GBL?Page=SSR_SSENRL_ADD_C&Action=U&ACAD_CAREER=UGRD&EMPLID={keys["id"]}&ENRL_REQUEST_ID=0061938917&INSTITUTION=QNS01&STRM=1222&TargetFrameName=None')
     else:
-        status = False
+        print("SUCCESS! Class swap was successful, you're now enrolled on CSCI 381 with Roday")
         print(" _____ _   _ _____  _____  _____ _____ _____ _ ")
         print("/  ___| | | /  __ \/  __ \|  ___/  ___/  ___| |")
         print("\ `--.| | | | /  \/| /  \/| |__ \ `--.\ `--.| |")
         print(" `--. \ | | | |    | |    |  __| `--. \`--. \ |")
         print("/\__/ / |_| | \__/\| \__/\| |___/\__/ /\__/ /_|")
         print("\____/ \___/ \____/ \____/\____/\____/\____/(_)")
-        
+        status = False
+
+
     time.sleep(num)
