@@ -17,7 +17,7 @@ with open('keys.json') as f:
     keys = json.load(f)
 
 #PATH = "./chromedriver.exe"
-PATH = "./geckodriver.exe"
+PATH = "C:\drivers\geckodriver.exe"
 
 service = Service(PATH)
 driver = webdriver.Firefox(service=service)
@@ -50,7 +50,7 @@ while status:
     counter += 1
     print(f'***************************************Submission {counter}***************************************')
 
-    time.sleep(2)
+    time.sleep(5)
 
     # find the success status from the image used
     result = driver.find_element(By.XPATH, '//*[@id="win0divDERIVED_REGFRM1_SSR_STATUS_LONG$3"]/div/img')
@@ -59,9 +59,9 @@ while status:
     image_url = result.get_attribute("src")
     Pattern = re.compile(".+ERROR.+")
 
-    time.sleep(2)
+    time.sleep(5)
 
-    num = random.randrange(30)
+    num = random.randrange(15)
 
     if Pattern.fullmatch(image_url) != None:
         print(f'Continue... waiting {num} seconds')
